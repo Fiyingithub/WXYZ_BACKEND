@@ -28,12 +28,10 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-
 app.get('/', (req: Request, res: Response) => {
     res.send('Hello, World!');
 
 })
-
 
 app.use('/api', routes);
 
