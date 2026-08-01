@@ -106,6 +106,21 @@ model Address {
 
 }
 
+model CategoryImage {
+
+  id String @id @default(uuid())
+
+
+  url String
+
+
+  categoryId String
+
+
+  category Category @relation(fields:[categoryId], references:[id], onDelete:Cascade)
+
+}
+
 
 
 // CATEGORY
@@ -120,6 +135,7 @@ model Category {
 
   products Product[]
 
+  images CategoryImage[]
 
   createdAt DateTime @default(now())
 

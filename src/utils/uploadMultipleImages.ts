@@ -1,6 +1,6 @@
 import cloudinary from "../config/cloudinary.config.ts";
 
-export const uploadToCloudinary = async ( buffer: Buffer, originalname: string ): Promise<string> => {
+export const uploadMultipleImages = async ( buffer: Buffer, originalname: string ): Promise<string> => {
     try {
         return new Promise<string>((resolve, reject) => {
             const uploadStream = cloudinary.uploader.upload_stream(

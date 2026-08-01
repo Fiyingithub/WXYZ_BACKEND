@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
 import { productService } from "../services/product.service.ts";
-import { uploadToCloudinary } from "../utils/uploadToCloudinary.ts";
+import { uploadMultipleImages } from "../utils/uploadMultipleImages.ts";
 import type { UserParamsId } from "../types/userTypes.ts";
 
 export const productController = {
@@ -15,7 +15,7 @@ export const productController = {
 
       for (const file of files) {
         if (file?.buffer && file.originalname) {
-          const url = await uploadToCloudinary(file.buffer, file.originalname);
+          const url = await uploadMultipleImages(file.buffer, file.originalname);
           imageUrls.push(url);
         }
       }
