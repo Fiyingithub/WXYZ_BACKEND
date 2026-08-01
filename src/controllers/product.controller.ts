@@ -86,6 +86,7 @@ export const productController = {
       const { id } = req.params;
 
       const product = await productService.updateProduct(id, req.body);
+      
 
       return res.status(200).json({
         status: 200,
@@ -94,6 +95,7 @@ export const productController = {
         data: product,
       });
     } catch (error: any) {
+      console.log(error);
       return res.status(500).json({
         status: 500,
         error: true,

@@ -1,7 +1,8 @@
 import type { Request, Response, NextFunction } from "express";
-import * as jwt from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import type { JwtPayload } from "jsonwebtoken";
 import { config as dotenvConfig } from "dotenv";
+
 
 dotenvConfig();
 
@@ -56,6 +57,7 @@ export const protectedAction = ( req: AuthRequest,res: Response,next: NextFuncti
 
         next();
     } catch (error) {
+        console.error(error);
         return res.status(401).json({
         status: false,
         message: "Unauthorized",
