@@ -1,6 +1,15 @@
 node_modules
 # Keep environment variables out of version control
 .env
+.env.production
 .statusCode.txt
+
+logs
+*.log
+# Logs
+logs/
+
+certs/
+
 
 /generated/prisma

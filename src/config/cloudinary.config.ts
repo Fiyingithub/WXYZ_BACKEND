@@ -1,12 +1,13 @@
 import { v2 as cloudinary } from "cloudinary";
 import dotenv from "dotenv";
+import ENV from "./env.config.ts";
 
 dotenv.config();
 
 const cloudinaryConfig = {
-    cloud_name: process.env.CLOUDINARY_NAME,
-    api_key: process.env.CLOUDINARY_KEY,
-    api_secret: process.env.CLOUDINARY_SECRET,
+    cloud_name: ENV.cloudinary.cloudName,
+    api_key: ENV.cloudinary.apiKey,
+    api_secret: ENV.cloudinary.apiSecret,
     secure: true,
 };
 

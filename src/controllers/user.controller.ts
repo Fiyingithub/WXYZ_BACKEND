@@ -1,11 +1,10 @@
 import type { Request, Response } from "express";
 import bcrypt from "bcrypt";
-import dotenv from "dotenv";
 import { userService } from "../services/user.service.ts";
 import { generateAccessToken, generateRefreshToken } from "../utils/jwt.utils.ts";
 import type { UserParamsId } from "../types/userTypes.ts";
+import logger from "../logger.ts";
 
-dotenv.config();
 
 export const userController = {
     async createUser(req: Request, res: Response) {
@@ -53,7 +52,7 @@ export const userController = {
                 data: user,
             });
         } catch (error) {
-        console.log(error);
+        logger.error(error);
 
         return res.status(500).json({
             status: 500,
@@ -118,7 +117,7 @@ export const userController = {
                 },
             });
         } catch (error) {
-            console.error(error);
+            logger.error(error);
 
             return res.status(500).json({
                 status: 500,

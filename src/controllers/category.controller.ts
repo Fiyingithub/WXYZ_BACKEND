@@ -3,6 +3,7 @@ import { categoryService } from "../services/category.service.ts";
 import type { Prisma } from "../../generated/prisma/client";
 import type { UserParamsId } from "../types/userTypes.ts";
 import { uploadSingleImage } from "../utils/uploadSingleImage.ts";
+import logger from "../logger.ts";
 
 
 export const categoryController = {
@@ -41,7 +42,7 @@ export const categoryController = {
         data: category,
       });
     } catch (error: any) {
-      console.log(error);
+      logger.error(error);
       return res.status(500).json({
         status: 500,
         error: true,
@@ -61,7 +62,7 @@ export const categoryController = {
         data: categories,
       });
     } catch (error: any) {
-      console.log(error);
+      logger.error(error);
       return res.status(500).json({
         status: 500,
         error: true,
@@ -82,7 +83,7 @@ export const categoryController = {
         data: category,
       });
     } catch (error: any) {
-      console.log(error);
+      logger.error(error);
       return res.status(500).json({
         status: 500,
         error: true,
@@ -104,7 +105,7 @@ export const categoryController = {
         data: category,
       });
     } catch (error: any) {
-      console.log(error);
+      logger.error(error);
       return res.status(500).json({
         status: 500,
         error: true,
@@ -125,7 +126,7 @@ export const categoryController = {
         data: category,
       });
     } catch (error: any) {
-      console.log(error);
+      logger.error(error);
       return res.status(500).json({
         status: 500,
         error: true,

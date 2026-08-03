@@ -9,7 +9,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc --build",
-    "start": "node dist/index.js",
+    "start": "node dist/src/index.js",
     "dev": "nodemon --exec ts-node src/index.ts"
   },
   "dependencies": {
@@ -25,7 +25,8 @@
     "jsonwebtoken": "^9.0.3",
     "multer": "^2.2.0",
     "nodemon": "^3.1.14",
-    "pg": "^8.22.0"
+    "pg": "^8.22.0",
+    "winston": "^3.19.0"
   },
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",

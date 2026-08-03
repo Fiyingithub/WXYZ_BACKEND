@@ -1,10 +1,10 @@
 import type { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import type { JwtPayload } from "jsonwebtoken";
-import { config as dotenvConfig } from "dotenv";
+import ENV from "../config/env.config.ts";
+import logger from "../logger.ts";
 
 
-dotenvConfig();
 
 
 interface AuthRequest extends Request {
@@ -36,7 +36,7 @@ export const protectedAction = ( req: AuthRequest,res: Response,next: NextFuncti
     }
 
     try {
-        const secret = process.env.JWT_ACCESS_SECRET;
+        const secret = ENV.jwt.accessSecret;
 
         if (!secret) {
             return res.status(500).json({
@@ -57,7 +57,7 @@ export const protectedAction = ( req: AuthRequest,res: Response,next: NextFuncti
 
         next();
     } catch (error) {
-        console.error(error);
+        logger.error(error);
         return res.status(401).json({
         status: false,
         message: "Unauthorized",

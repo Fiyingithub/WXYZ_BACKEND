@@ -1,0 +1,8 @@
+node_modules
+.git
+.env
+certs
+logs
+*.log
+/generated/prisma
+.statusCode.txt
