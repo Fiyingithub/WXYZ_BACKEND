@@ -2,6 +2,7 @@ import type { Request, Response } from "express";
 import { productService } from "../services/product.service.ts";
 import { uploadMultipleImages } from "../utils/uploadMultipleImages.ts";
 import type { UserParamsId } from "../types/userTypes.ts";
+import logger from "../logger.ts";
 
 export const productController = {
   async createProduct(req: Request, res: Response) {
@@ -29,7 +30,7 @@ export const productController = {
         data: product,
       });
     } catch (error: any) {
-      console.log(error);
+      logger.error(error);
       return res.status(500).json({
         status: 500,
         error: true,
@@ -95,7 +96,7 @@ export const productController = {
         data: product,
       });
     } catch (error: any) {
-      console.log(error);
+      logger.error(error);
       return res.status(500).json({
         status: 500,
         error: true,
