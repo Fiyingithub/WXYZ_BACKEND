@@ -84,6 +84,19 @@ const exists = async (id: string) => {
     });
 };
 
+const getProductByCategoryId = async (categoryId: string) => {
+    return prisma.product.findMany({
+        where: {
+            categoryId,
+            status: "ACTIVE",
+        },
+        include: {
+            category: true,
+            images: true,
+        },
+    });
+};
+
 export const productRepository = {
     create,
     findAll,
@@ -91,4 +104,5 @@ export const productRepository = {
     update,
     deleteProduct,
     exists,
+    getProductByCategoryId,
 };

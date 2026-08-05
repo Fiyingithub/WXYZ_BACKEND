@@ -16,7 +16,10 @@ export const productController = {
 
       for (const file of files) {
         if (file?.buffer && file.originalname) {
-          const url = await uploadMultipleImages(file.buffer, file.originalname);
+          const url = await uploadMultipleImages(
+            file.buffer,
+            file.originalname,
+          );
           imageUrls.push(url);
         }
       }
@@ -82,12 +85,33 @@ export const productController = {
     }
   },
 
+  async getAllProductsByCategoryId(req: Request<{ categoryId: string }>, res: Response) {
+    try {
+      const { categoryId } = req.params;
+      const products = await productService.getProductByCategoryId(categoryId);
+
+      return res.status(200).json({
+        status: 200,
+        error: false,
+        message: "Products fetched successfully.",
+        data: products,
+      });
+    } catch (error) {
+      console.error(error);
+
+      return res.status(500).json({
+        status: 500,
+        error: true,
+        message: "An error occurred while fetching products.",
+      });
+    }
+  },
+
   async updateProduct(req: Request<UserParamsId>, res: Response) {
     try {
       const { id } = req.params;
 
       const product = await productService.updateProduct(id, req.body);
-      
 
       return res.status(200).json({
         status: 200,

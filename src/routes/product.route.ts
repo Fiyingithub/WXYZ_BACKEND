@@ -8,6 +8,7 @@ const router = Router();
 router.post('/', protectedAction, authorize('ADMIN'), upload.array('images', 6), productController.createProduct);
 router.get('/', productController.getProducts);
 router.get('/:id', productController.getProductById);
+router.get('/category/:categoryId', productController.getAllProductsByCategoryId);
 router.patch('/:id', protectedAction, authorize('ADMIN'), productController.updateProduct);
 router.delete('/:id', protectedAction, authorize('ADMIN'), productController.deleteProduct);
 
