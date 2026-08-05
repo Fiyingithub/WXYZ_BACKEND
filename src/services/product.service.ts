@@ -48,6 +48,10 @@ const getProduct = async (id: string) => {
     return product;
 };
 
+const getProductByCategoryId = async (categoryId: string) => {
+    return productRepository.getProductByCategoryId(categoryId);
+};
+
 const updateProduct = async (id: string, data: Prisma.ProductUpdateInput) => {
     return productRepository.update(id, data);
 };
@@ -67,4 +71,5 @@ export const productService = {
     updateProduct,
     deleteProduct,
     productExists,
+    getProductByCategoryId
 };
