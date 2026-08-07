@@ -5,6 +5,7 @@ import helmet from 'helmet';
 import routes from './routes/index.route.ts';
 import ENV from './config/env.config.ts';
 import logger from './logger.ts';
+import cookieParser from "cookie-parser";
 
 
 
@@ -13,6 +14,9 @@ const app = express();
 const port = ENV.port;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+
+app.use(cookieParser());
 
 
 // helmet

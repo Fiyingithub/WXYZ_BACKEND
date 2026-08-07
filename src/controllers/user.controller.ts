@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import { userService } from "../services/user.service.ts";
-import { generateAccessToken, generateRefreshToken } from "../utils/jwt.utils.ts";
+import { generateAccessToken, generateRefreshToken, verifyRefreshToken } from "../utils/jwt.utils.ts";
 import type { UserParamsId } from "../types/userTypes.ts";
 import logger from "../logger.ts";
 
@@ -64,8 +64,16 @@ export const userController = {
 
     async login(req: Request, res: Response) {
         try {
-            const email = typeof req.body?.email === "string" ? req.body.email.trim().toLowerCase() : "";
-            const password = typeof req.body?.password === "string" ? req.body.password : "";
+            const email =
+                typeof req.body?.email === "string"
+                    ? req.body.email.trim().toLowerCase()
+                    : "";
+
+            const password =
+                typeof req.body?.password === "string"
+                    ? req.body.password
+                    : "";
+
 
             if (!email || !password) {
                 return res.status(400).json({
@@ -75,7 +83,9 @@ export const userController = {
                 });
             }
 
+
             const user = await userService.findUserByEmail(email);
+
 
             if (!user) {
                 return res.status(401).json({
@@ -85,7 +95,12 @@ export const userController = {
                 });
             }
 
-            const isPasswordValid = await bcrypt.compare(password, user.password);
+
+            const isPasswordValid = await bcrypt.compare(
+                password,
+                user.password
+            );
+
 
             if (!isPasswordValid) {
                 return res.status(401).json({
@@ -95,6 +110,8 @@ export const userController = {
                 });
             }
 
+
+
             const userDto = {
                 id: user.id,
                 email: user.email,
@@ -103,8 +120,27 @@ export const userController = {
                 name: user.name,
             };
 
-            const token = generateAccessToken(userDto);
+
+
+            const accessToken = generateAccessToken(userDto);
+
             const refreshToken = generateRefreshToken(userDto);
+
+
+
+            // Store refresh token in HTTP-only cookie
+            res.cookie(
+                "refreshToken",
+                refreshToken,
+                {
+                    httpOnly: true,
+                    secure: process.env.NODE_ENV === "production",
+                    sameSite: "strict",
+                    maxAge: 7 * 24 * 60 * 60 * 1000,
+                }
+            );
+
+
 
             return res.status(200).json({
                 status: 200,
@@ -112,17 +148,74 @@ export const userController = {
                 message: "Login successful.",
                 data: {
                     user: userDto,
-                    refreshToken,
-                    accessToken: token,
+                    accessToken,
                 },
             });
+
+
         } catch (error) {
+
             logger.error(error);
 
             return res.status(500).json({
                 status: 500,
                 error: true,
                 message: "An error occurred while logging in.",
+            });
+        }
+    },
+
+    async refreshToken(req: Request, res: Response) {
+
+        try {
+
+            const token = req.cookies.refreshToken;
+
+
+            if (!token) {
+                return res.status(401).json({
+                    status:401,
+                    error:true,
+                    message:"Refresh token missing."
+                });
+            }
+
+
+
+            const decoded = verifyRefreshToken(token);
+
+
+
+            const newAccessToken =
+                generateAccessToken({
+                    id: decoded.id,
+                    email: decoded.email,
+                    username: decoded.username,
+                    role: decoded.role
+                });
+
+
+
+            return res.status(200).json({
+                status:200,
+                error:false,
+                message:"Access token refreshed.",
+                data:{
+                    accessToken:newAccessToken
+                }
+            });
+
+
+
+        } catch(error){
+
+            logger.error(error);
+
+
+            return res.status(403).json({
+                status:403,
+                error:true,
+                message:"Invalid or expired refresh token."
             });
         }
     },
