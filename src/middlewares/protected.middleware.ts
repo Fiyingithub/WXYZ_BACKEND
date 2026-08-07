@@ -7,14 +7,7 @@ import logger from "../logger.ts";
 
 
 
-interface AuthRequest extends Request {
-  user?: JwtPayload & {
-    id?: string;
-    role?: string;
-  };
-}
-
-export const protectedAction = ( req: AuthRequest,res: Response,next: NextFunction ) => {
+export const protectedAction = ( req: Request,res: Response,next: NextFunction ) => {
     const { authorization } = req.headers;
 
     if (!authorization) {
@@ -67,7 +60,7 @@ export const protectedAction = ( req: AuthRequest,res: Response,next: NextFuncti
 };
 
 export const authorize = (...roles: string[]) => {
-  return (req: AuthRequest, res: Response, next: NextFunction) => {
+  return (req: Request, res: Response, next: NextFunction) => {
     if (!req.user) {
       return res.status(401).json({
         status: false,

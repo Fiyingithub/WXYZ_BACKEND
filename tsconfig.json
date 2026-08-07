@@ -10,7 +10,7 @@
     "module": "esnext",
     "moduleResolution": "bundler",
     "target": "es2023",
-    "types": [],
+    "types": ["node"],
     "esModuleInterop": true,
     "ignoreDeprecations": "5.0",
     // For nodejs:
@@ -45,5 +45,6 @@
     "skipLibCheck": true,
     "allowImportingTsExtensions": true,
     "rewriteRelativeImportExtensions": true
-  }
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx,", "src/**/*.d.ts"]
 }

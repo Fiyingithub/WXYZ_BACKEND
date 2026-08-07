@@ -9,6 +9,8 @@ router.post('/signup', userController.createUser);
 
 router.post('/login', userController.login);
 
+router.post('/refresh-token', userController.refreshToken);
+
 router.get('/', userController.getAllUsers);
 
 router.get('/:id', protectedAction, userController.getUserById);
